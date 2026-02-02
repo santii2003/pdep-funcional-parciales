@@ -1,4 +1,4 @@
-module First where
+module MapFilterFilter where
 import PdePreludat
 
 
@@ -50,9 +50,14 @@ maxBetweenThree n1 n2 = max (max n1 n2)
 -- Ejercicio 5A que devuelva 6
 -- (!!5) (aplicarTransformacionAListaFiltradaRecursiva (<=6) (+0) [0..] )
 
--- Ejercicio 5B que devuelva una lista infinita
--- aplicarTransformacionAListaFiltrada (>5) (+0) [5..]
-
--- Ejercico 5C
+-- Ejercico 5B
 -- aplicarTransformacionAListaFiltrada (<5) (+1) [0..], se queda colgado después de procesar el 4, ya que tiene que filtrar a todos los que no cumplen, siendo estos 
 -- una lista infinita
+
+
+-- Ejercicio 5C que devuelva una lista infinita
+-- aplicarTransformacionAListaFiltrada (>5) (+0) [5..]
+
+-- Ejercicio 5D
+-- > aplicarTransformacionAListaFiltrada (<5) (div 10) [0..] , *** Exception: divide by zero
+-- intenta aplicar transformacion a todos los menores a 5 y como la división de un número por 0 no se puede hacer tira excepción y error de ejecución. 
