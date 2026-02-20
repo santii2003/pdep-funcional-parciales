@@ -97,11 +97,9 @@ esMolesta nota  | tono nota < 250 && volumen nota > 85 = True
                 | otherwise = False 
 
 --b está mal bajo los parámetros de funciones de orden superior, hay 
--- muchas guardas
-
--- la función solo está definida por partes.. 
--- si el volumen nota > 85 que se compare 
-
+-- muchas guardas? 
+-- definición innecesaria del True False? 
+-- ??
 
 
 --2) 

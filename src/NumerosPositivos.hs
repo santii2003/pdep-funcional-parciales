@@ -32,11 +32,11 @@ positivo = (>0)
 -- Esta función no tiene errores de funcionamiento y devuelve los valores correctos del precio
 -- de la entrada según la edad de la persona
 
-costoEntrada :: Number -> Number 
-costoEntrada edad 
-    |  edad > 18 = 100 + 2 * (edad+1)
-    | edad > 60 = 100 + 2 * (edad/2 -20)
-    | otherwise = 100 + 2 * (18 - edad)
+-- costoEntrada :: Number -> Number 
+-- costoEntrada edad 
+--     |  edad > 18 = 100 + 2 * (edad+1)
+--     | edad > 60 = 100 + 2 * (edad/2 -20)
+--     | otherwise = 100 + 2 * (18 - edad)
 
 -- Hacer una versión que siga funcionando de la misma forma, pero mejor hecha
 -- Justificar brevemente por qué la nueva versión es mejor
@@ -47,6 +47,13 @@ costoEntrada edad
 -- porque si después se quieren agregar 40 criterios más implicaría hacer una función muy larga
 
 -- lo mejor sería delegar la responsabilidades ... ¿Cuáles?
+    
+-- o abstraer esto en un data? 
+
+data CostoEntrada = CostoEntrada {
+    criterio :: Number -> Bool, 
+    costo :: Number -> Number        
+} deriving (Show)
 
 
 -- 3 Devuelve Algo 
@@ -149,8 +156,8 @@ irregular = any (\ v-> votosEmitidos v > cantidadVotosHabilitados v) . listaMesa
 -- primero debemos transformar a cada mesa de la eleccion a 
 -- un indice .:. Mesa -> Number
 
-mayorIndice :: Eleccion -> Mesa
-mayorIndice eleccion =  
+-- mayorIndice :: Eleccion -> Mesa
+-- mayorIndice eleccion =  
 
 
 
