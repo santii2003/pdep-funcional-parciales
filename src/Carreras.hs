@@ -132,3 +132,33 @@ estaCercaV2 auto otroAuto = (<10)  (abs (distancia auto - distancia otroAuto))
 jetPack :: Number -> Auto -> [Auto] -> [Auto]
 jetPack tiempo auto = afectarALosQueCumplen (not . noSonIguales auto) (alterarVelocidad (*2) . recorrer tiempo)
 
+-- f :: (Number -> Bool ) ->[ (a, [Number]) ]  -> Bool 
+-- f h = (>15) . sum . filter h . head . map snd 
+--                                     --  map :: (a->b) -> [a] -> [b] ,snd :: (a,b) -> b
+--                                     --
+
+
+-- Práctica: algoritmo repetido
+
+data Alimento = Alimento {
+    nombre :: String, 
+    precio :: Number, 
+    calorias :: Number 
+} deriving (Show)
+
+-- a) ordenarAlfabeticamente:
+    -- Para cada alimento a ordenar, lo ubico arriba del primero con mayor NOMBRE que ya haya ordenado
+
+--b) ordenarPorPrecio 
+    -- Para cada alimento a ordenar, lo ubico arriba del primero con mayor PRECIO que ya haya ordenado
+
+--c) ordenarPorCalorias
+    -- Para cada alimento a ordenar, lo ubico arriba del primero con mayor CALORÍAS que ya haya ordenado
+
+-- lo único que no se repite es lo que está en MAYÚSCULAS -> Función de orden superior, que abstraiga como hacer lo demás, de lo que no se repite simplemente 
+-- lo dejamos para más adelante
+
+-- ordenar _ [] = []
+-- ordenar criterio (x:xs) 
+--     | criterio x (head xs) = x : ordenar criterio xs 
+--     | otherwise = ordenar criterio xs ++ [x]
