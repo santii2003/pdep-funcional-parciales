@@ -38,17 +38,19 @@ positivo = (>0)
 --     | edad > 60 = 100 + 2 * (edad/2 -20)
 --     | otherwise = 100 + 2 * (18 - edad)
 
+
 -- Hacer una versión que siga funcionando de la misma forma, pero mejor hecha
 -- Justificar brevemente por qué la nueva versión es mejor
 
--- Esta versión de costo entrada tiene una clara problemática, el tener que encargarse de 
--- varias cosas a la vez, la cohesión de función se pierde
--- se encarga además de devolver el coste, de calcularlo y eso es un error
--- porque si después se quieren agregar 40 criterios más implicaría hacer una función muy larga
+-- definir que se repite: 
+    -- edad > ... 
+    -- = 100 + 2 * (edad....) 
 
--- lo mejor sería delegar la responsabilidades ... ¿Cuáles?
-    
--- o abstraer esto en un data? 
+--lo primero puede ser abstraido en (Number -> Bool)
+-- lo segundo, en (edad ..), se puede inferir que es :: Number -> Number 
+-- NI IDEA 
+
+
 
 data CostoEntrada = CostoEntrada {
     criterio :: Number -> Bool, 

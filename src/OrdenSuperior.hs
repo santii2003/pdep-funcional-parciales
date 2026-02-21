@@ -5,7 +5,7 @@ import PdePreludat
 -- Si una función f recibe en algunos de sus argumentos una función entonces f es una función de orden superior. Veamos un ejemplo. 
 -- Si quiero aplicar a un número n una función determinada podría hacer.. 
 aplicar :: (a->b)->a->b
-aplicar f n = f n 
+aplicar f  = f 
 -- Por ejemplo, le paso como argumento una función aplicada parcialmente: (+3), (4*). 
 -- Main> aplicar (+ 3) 2 
 -- 5 
@@ -160,4 +160,128 @@ flimitada f = max 0 . min 12 . f
 cambiarHabilidad f = map (flimitada f)  
 
 -- usar cambiarHabilidad para llevar a 4 los que tenían menos de 4, dejando como estaban al resto
+
+
+-- final 
+data VideoJuego = Videojuego {
+    titulo :: String, 
+    desarrolladora :: String, 
+    generos :: [String], 
+    lanzamiento :: Number
+} deriving (Show)
+
+esDesarrolladoPor dev = (==dev) . desarrolladora 
+
+perteneceAGenero genero = elem genero . generos 
+
+esReciente = (>2015) . lanzamiento
+
+type Preferencia = VideoJuego -> Bool 
+type Jugador = [Preferencia]
+
+juan :: Jugador
+juan = [esDesarrolladoPor "nintendo" , perteneceAGenero "plataformas"]
+maria = [esReciente]
+
+pedro = [esDesarrolladoPor "rockstar", perteneceAGenero "mundoAbierto"]
+
+-- jugadores = [juan, maria, pedro]
+
+preferidosDelComite :: [Jugador] -> [VideoJuego] -> [VideoJuego]
+preferidosDelComite  jugadores = filter (esValoradoPositivamente jugadores) 
+
+-- está mal la relación, porque pensé la función de orden superior muy compleja, 
+-- una solución simple era planteralo como: 
+    -- Cada videojuego va a pertenecer a la lista filtrada, si es del agrado de todos los jugadores
+
+
+-- valoradoPositivamente :: [Preferencia] -> VideoJuego -> Bool 
+-- valoradoPositivamente [] _ = True
+-- valoradoPositivamente (f:fs) videojuego 
+--     | f videojuego = valoradoPositivamente fs videojuego
+--     | otherwise = False 
+
+
+esValoradoPositivamente :: [Jugador] -> VideoJuego -> Bool 
+esValoradoPositivamente jugadores videojuego = all (valuaPositivamente videojuego) jugadores 
+
+-- all ( any (\preferencia -> preferencia videojuego) ) jugadores 
+
+    -- adentro del all, estamos diciendo : 
+    -- cada (any) preferencia (de la lista de preferencias de un jugador, sea
+    -- comprobado con el videojuego, si es asi para todos )
+
+valuaPositivamente ::  VideoJuego -> [Preferencia] -> Bool
+valuaPositivamente _ [] = True
+valuaPositivamente videojuego (f:fs)  
+    | f videojuego = valuaPositivamente videojuego fs 
+    | otherwise = False 
+ 
+data Alimento = Comida {
+    nombre :: String,
+    calorias :: Number, 
+    nutrientes :: [String]
+}deriving (Show)
+
+ana :: [Alimento -> Bool]
+-- ana = [esBajoEnCalorias, tieneProteinas]
+
+esBajoEnCalorias :: Alimento -> Bool 
+esBajoEnCalorias comida = calorias comida < 100
+
+tieneProteinas :: Alimento -> Bool 
+tieneProteinas  = elem "proteinas" . nutrientes 
+
+tieneNutriente :: String -> Alimento -> Bool 
+tieneNutriente nutriente = elem nutriente . nutrientes 
+
+
+ana = [esBajoEnCalorias, tieneNutriente "proteina"]
+
+--3) Se cuenta con una función que permite establecer, dada una lista de alimentos, cuales 
+-- elegiría la persona según sus requerimientos, o preferencias.
+-- Asumiendo que elige un alimento que cumpla al menos 1
+
+-- alimentosElegidos :: [Alimento -> Bool] -> [Alimento] -> [Alimento]
+-- alimentosElegidos requisitos alimentos = filter (f requisitos) alimentos
+
+-- f:: [Alimento -> Bool] -> Alimento -> Bool 
+-- f requisitos alimento = any (\requisito -> requisito alimento) requisitos
+
+-- a) La solución parece funcionar correctamente. alimentosElegidos delega en filter
+-- la condición para que elegir a un alimento, mediante f 
+
+--como la condición era que el alimento cumpla al menos con 1 
+-- requisito del cliente, entonces:>
+-- any (\requisito -> requisito alimento) requisitos
+
+--b && c)
+-- la solución no es poco declarativa, debido a que utiliza funciones de orden
+-- superior para dejar en claro de que se encarga cada uno, reduciendo código
+
+-- la solución es poco expresiva, puesto al nombre de f, no se puede intuir que es lo que hace solo
+-- leyendo el f 
+
+-- un cambio de nombre posible puede ser: cumpleAlgunRequisito 
+
+--d) Verdadero, el filter evalua toda la lista para tratar de filtrar, quedando en un bucle infinito
+-- puesto que no es como otras funciones, de tipo lazy... 
+-- filter necesita evaluar si o si a todos los elementos de la lista, por 
+-- eso queda en bucle infinito, lo mismo map, all,
+
+-- funciones como any, o de ese estilo solo necesitan 1 elemento,
+-- por lo tanto van a terminar, ya que las evidentemente cuándo encuentre a uno corta, sino
+-- si entra en bucle infinito cuándo no puede cumplir con el elemento
+
+-- funciones como head, !!n si terminan, bajo cualquier caso, ya que 
+-- son de evaluación lazy, por lo tanto solo le van a ir pidiendo a la lista, un determinado
+-- elemento hasta llegar a la posición buscada (head = 0) o !!n
+
+
+
+desplazamiento :: [a] -> Number -> a
+desplazamiento [x] _ = x 
+desplazamiento (x:xs) n = desplazamiento xs (n-1) 
+
+    -- head (x:_) = x 
 
